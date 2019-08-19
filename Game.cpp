@@ -21,18 +21,28 @@ public:
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
 		double oldHP;
+		double damage;
+		
 		oldHP = player2->HP;
-		player2->HP = player2->HP - player1->STR * 0.5;
+
+		if(player1->STR > player2->DEF)
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
+		else
+			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+
+		player2->HP -= damage;
+
 		if (player2->HP < 0)
 			player2->HP = 0;
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " HP.\n";
+
+		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
 		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
 	}
 };
 class Orc : public Hero {
 public:
 	Orc() { Race = "Orc"; 
-		HP = 1500;
+		HP = 1200;
 		STR = 125;
 		DEF = 125;
 		INT = 75;
@@ -41,18 +51,28 @@ public:
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
 		double oldHP;
+		double damage;
+
 		oldHP = player2->HP;
-		player2->HP = player2->HP - player1->STR * 0.5;
+
+		if (player1->STR > player2->DEF)
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
+		else
+			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+
+		player2->HP -= damage;
+
 		if (player2->HP < 0)
 			player2->HP = 0;
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " HP.\n";
+
+		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
 		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
 	}
 };
 class Elf : public Hero {
 public:
 	Elf() { Race = "Elf"; 
-		HP = 500;
+		HP = 800;
 		STR = 75;
 		DEF = 75;
 		INT = 125;
@@ -61,19 +81,29 @@ public:
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
 		double oldHP;
+		double damage;
+
 		oldHP = player2->HP;
-		player2->HP = player2->HP - player1->STR * 0.5;
+
+		if (player1->STR > player2->DEF)
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
+		else
+			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+
+		player2->HP -= damage;
+
 		if (player2->HP < 0)
 			player2->HP = 0;
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " HP.\n";
+
+		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
 		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
 	}
 };
 class Alien : public Hero {
 public:
 	Alien() { Race = "Alien"; 
-		HP = 2000;
-		STR = 200;
+		HP = 1500;
+		STR = 100;
 		DEF = 1;
 		INT = 200;
 		LCK = 200;
@@ -81,11 +111,21 @@ public:
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
 		double oldHP;
+		double damage;
+
 		oldHP = player2->HP;
-		player2->HP = player2->HP - player1->STR * 0.5;
+
+		if (player1->STR > player2->DEF)
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
+		else
+			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+
+		player2->HP -= damage;
+
 		if (player2->HP < 0)
 			player2->HP = 0;
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " HP.\n";
+
+		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
 		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
 	}
 };
@@ -546,11 +586,11 @@ void Game::start() {
 }
 bool Game::endOfGame(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) {
 	if (player1->HP == 0) {
-		std::cout << "\tPlayer2 " << player2->Name << " win!!!\nGAME OVER";
+		std::cout << "\tPlayer2 " << player2->Name << " win!!!\n\nGAME OVER";
 		return true;
 	}
 	else if (player2->HP == 0) {
-		std::cout << "\tPlayer1 " << player1->Name << " win!!!\nGAME OVER";
+		std::cout << "\tPlayer1 " << player1->Name << " win!!!\n\nGAME OVER";
 		return true;
 	}
 	else
