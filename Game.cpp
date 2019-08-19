@@ -135,7 +135,7 @@ public:
 		double damage;
 		static int alienDamage = 11; //instead of critical damage Aliens have special alien damage
 
-		//super alien damage
+		//special alien damage
 		--alienDamage;
 		if (alienDamage > 0) {
 			if (player1->STR > player2->DEF)
