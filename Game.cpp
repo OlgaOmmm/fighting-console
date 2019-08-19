@@ -30,12 +30,12 @@ public:
 		else 
 			damage = (player1->STR * 0.5);
 
-		damage *= 0.01 * (rand() % 15); // random value of damage
+		damage += (rand() % 20) - 10;; // random value of damage
 
 		//critical damage
 		if ((rand() % 4) == 1) {
-			damage *= 3;
-			std::cout << "\tCritical Human damage!\n";
+			damage *= 1.5;
+			std::cout << "\tCritical Human damage x1.5!\n";
 		}
 
 		player2->HP -= damage;
@@ -50,7 +50,7 @@ public:
 class Orc : public Hero {
 public:
 	Orc() { Race = "Orc"; 
-		HP = 1200;
+		HP = 1000;
 		STR = 125;
 		DEF = 125;
 		INT = 75;
@@ -67,12 +67,12 @@ public:
 		else
 			damage = (player1->STR * 0.5);
 
-		damage *= 0.01 * (rand() % 15); // random value of damage
+		damage += (rand() % 20) - 10;; // random value of damage
 
 		//critical damage
 		if ((rand() % 4) == 1) {
-			damage *= 2;
-			std::cout << "\tCritical Orc damage!\n";
+			damage *= 1.25;
+			std::cout << "\tCritical Orc damage x1.25!\n";
 		}
 
 		player2->HP -= damage;
@@ -87,7 +87,7 @@ public:
 class Elf : public Hero {
 public:
 	Elf() { Race = "Elf"; 
-		HP = 800;
+		HP = 1000;
 		STR = 75;
 		DEF = 75;
 		INT = 125;
@@ -104,12 +104,12 @@ public:
 		else
 			damage = (player1->STR * 0.5);
 
-		damage *= 0.01 * (rand() % 15); // random value of damage
+		damage += (rand() % 20) - 10;; // random value of damage
 
 		//critical damage
 		if ((rand() % 4) == 1) {
-			damage *= 10;
-			std::cout << "\tCritical Elf damage!\n";
+			damage *= 2;
+			std::cout << "\tCritical Elf damage x2!\n";
 		}
 
 		player2->HP -= damage;
@@ -124,7 +124,7 @@ public:
 class Alien : public Hero {
 public:
 	Alien() { Race = "Alien"; 
-		HP = 1500;
+		HP = 1000;
 		STR = 100;
 		DEF = 1;
 		INT = 200;
@@ -133,7 +133,7 @@ public:
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override { 
 		double damage;
-		static int alienDamage = 11; //instead of critical damage Aliens have special alien damage
+		static int alienDamage = 4; //instead of critical damage Aliens have special alien damage
 
 		//special alien damage
 		--alienDamage;
@@ -144,7 +144,7 @@ public:
 				damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
 			else
 				damage = (player1->STR * 0.5);
-			damage *= 0.01 * (rand() % 15); // random value of damage
+			damage += (rand() % 20) - 10;; // random value of damage
 			std::cout << "\tWarning!!! Powerful alien damage after " << alienDamage << " turns.\n\n";
 		}
 		else {
@@ -413,6 +413,7 @@ public:
 //game cycle
 Game::Game() {
 	srand(time(NULL));
+	std::cout << "About game races: \nHuman race has average stats between Elf race and Orc race. \nAlien race has special alien damage. \nGood luck!\n\n";
 };
 void Game::start() {
 	// ------------------------ CREATING ------------------------
