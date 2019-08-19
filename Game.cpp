@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <ctime>
 
 #include "Hero.h"
 #include "Game.h"
@@ -20,23 +21,30 @@ public:
 		SPD = 100;
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
-		double oldHP;
 		double damage;
-		
-		oldHP = player2->HP;
 
 		if(player1->STR > player2->DEF)
-			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
-		else
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005) + (player1->INT/100);
+		else if (player1->STR < player2->DEF)
 			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+		else 
+			damage = (player1->STR * 0.5);
+
+		damage *= 0.01 * (rand() % 15); // random value of damage
+
+		//critical damage
+		if ((rand() % 4) == 1) {
+			damage *= 3;
+			std::cout << "\tCritical Human damage!\n";
+		}
 
 		player2->HP -= damage;
 
 		if (player2->HP < 0)
 			player2->HP = 0;
 
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
-		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
+		std::cout << "<Player " << player1->Name << " hit " << player2->Name << " with " << damage << " damage.>\n";
+		std::cout << "<" << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.>\n\n";
 	}
 };
 class Orc : public Hero {
@@ -50,23 +58,30 @@ public:
 		SPD = 75;
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
-		double oldHP;
 		double damage;
 
-		oldHP = player2->HP;
-
 		if (player1->STR > player2->DEF)
-			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
-		else
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005) + (player1->INT / 100);
+		else if (player1->STR < player2->DEF)
 			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+		else
+			damage = (player1->STR * 0.5);
+
+		damage *= 0.01 * (rand() % 15); // random value of damage
+
+		//critical damage
+		if ((rand() % 4) == 1) {
+			damage *= 2;
+			std::cout << "\tCritical Orc damage!\n";
+		}
 
 		player2->HP -= damage;
 
 		if (player2->HP < 0)
 			player2->HP = 0;
 
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
-		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
+		std::cout << "<Player " << player1->Name << " hit " << player2->Name << " with " << damage << " damage.>\n";
+		std::cout << "<" << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.>\n\n";
 	}
 };
 class Elf : public Hero {
@@ -80,23 +95,30 @@ public:
 		SPD = 125;
 	}
 	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
-		double oldHP;
 		double damage;
 
-		oldHP = player2->HP;
-
 		if (player1->STR > player2->DEF)
-			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
-		else
+			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005) + (player1->INT / 100);
+		else if (player1->STR < player2->DEF)
 			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+		else
+			damage = (player1->STR * 0.5);
+
+		damage *= 0.01 * (rand() % 15); // random value of damage
+
+		//critical damage
+		if ((rand() % 4) == 1) {
+			damage *= 10;
+			std::cout << "\tCritical Elf damage!\n";
+		}
 
 		player2->HP -= damage;
 
 		if (player2->HP < 0)
 			player2->HP = 0;
 
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
-		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
+		std::cout << "<Player " << player1->Name << " hit " << player2->Name << " with " << damage << " damage.>\n";
+		std::cout << "<" << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.>\n\n";
 	}
 };
 class Alien : public Hero {
@@ -109,24 +131,34 @@ public:
 		LCK = 200;
 		SPD = 1;
 	}
-	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override {
-		double oldHP;
+	void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) override { 
 		double damage;
+		static int alienDamage = 11; //instead of critical damage Aliens have special alien damage
 
-		oldHP = player2->HP;
-
-		if (player1->STR > player2->DEF)
-			damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005);
-		else
-			damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+		//super alien damage
+		--alienDamage;
+		if (alienDamage > 0) {
+			if (player1->STR > player2->DEF)
+				damage = (player1->STR * 0.5) * ((player1->STR - player2->DEF) * 0.0005) + (player1->INT / 100);
+			else if (player1->STR < player2->DEF)
+				damage = (player1->STR * 0.5) / ((player2->DEF - player1->STR) * 0.0005);
+			else
+				damage = (player1->STR * 0.5);
+			damage *= 0.01 * (rand() % 15); // random value of damage
+			std::cout << "\tWarning!!! Powerful alien damage after " << alienDamage << " turns.\n\n";
+		}
+		else {
+			damage = player2->HP;
+			std::cout << "\tDANGER!!! Powerful alien damage right now!!!\n\n";
+		}
 
 		player2->HP -= damage;
 
 		if (player2->HP < 0)
 			player2->HP = 0;
 
-		std::cout << "Player " << player1->Name << " hit " << player2->Name << " with " << oldHP - player2->HP << " damage.\n";
-		std::cout << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.\n\n";
+		std::cout << "<Player " << player1->Name << " hit " << player2->Name << " with " << damage << " damage.>\n";
+		std::cout << "<" << player1->Name << "'s HP is " << player1->HP << " now. " << player2->Name << "'s HP is " << player2->HP << " now.>\n\n";
 	}
 };
 
@@ -379,7 +411,9 @@ public:
 };
 
 //game cycle
-Game::Game() {};
+Game::Game() {
+	srand(time(NULL));
+};
 void Game::start() {
 	// ------------------------ CREATING ------------------------
 
@@ -577,20 +611,30 @@ void Game::start() {
 	std::cout << "\n\tFIGHT!!!\n\n";
 
 	while (!endOfGame(player1, player2)) {
-		player1->attack(player1, player2);
-		if (!endOfGame(player1, player2))
-			player2->attack(player2, player1);
+		if (player1->SPD >= player2->SPD) {
+			player1->attack(player1, player2);
+			if (!endOfGame(player1, player2))
+				player2->attack(player2, player1);
+			else
+				break;
+		}
 		else
-			break;
+		{
+			player2->attack(player2, player1);
+			if (!endOfGame(player1, player2))
+				player1->attack(player1, player2);
+			else
+				break;
+		}
 	}
 }
 bool Game::endOfGame(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) {
 	if (player1->HP == 0) {
-		std::cout << "\tPlayer2 " << player2->Name << " win!!!\n\nGAME OVER";
+		std::cout << "\tPlayer2 " << player2->Name << " win!!!\n\nGAME OVER\n";
 		return true;
 	}
 	else if (player2->HP == 0) {
-		std::cout << "\tPlayer1 " << player1->Name << " win!!!\n\nGAME OVER";
+		std::cout << "\tPlayer1 " << player1->Name << " win!!!\n\nGAME OVER\n";
 		return true;
 	}
 	else
