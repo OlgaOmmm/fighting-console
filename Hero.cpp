@@ -6,18 +6,19 @@
 Hero::Hero(){}
 Hero::~Hero() {}
 
-void Hero::setDamage(const std::unique_ptr<Hero>& attackedPlayer, const double& damage) {
+void Hero::setDamage(const std::unique_ptr<Hero>& attackedPlayer, const int& damage) {
 	attackedPlayer->HP -= damage;
 	if (attackedPlayer->HP < 0)
 		attackedPlayer->HP = 0;
 }
 
-double Hero::getDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const {
+int Hero::getDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const {
 	double damage;
 	damage = calcDamage(currentPlayer, attackedPlayer);
 	damage = randCriticalDamage(currentPlayer, damage);
 	return randomizeDamage(damage);
 }
+
 
 double Hero::calcDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const {
 	if (currentPlayer->Str > attackedPlayer->Def)
@@ -28,8 +29,8 @@ double Hero::calcDamage(const std::unique_ptr<Hero>& currentPlayer, const std::u
 		return (currentPlayer->Str * 0.5);	
 }
 
-double Hero::randomizeDamage(const double& damage) const {
-	return damage + (rand() % 20) - 10;
+int Hero::randomizeDamage(const double& damage) const {
+	return (int)(damage + (rand() % 20) - 10);
 }
 
 double Hero::randCriticalDamage(const std::unique_ptr<Hero>& currentPlayer, const double& damage) const {
@@ -65,7 +66,7 @@ bool Hero::ableToAvoidAttack(const std::unique_ptr<Hero>& currentPlayer, const s
 		return false;
 }
 
-void Hero::printDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer, const double& damage) const {
+void Hero::printDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer, const int& damage) const {
 	std::cout << "<" << currentPlayer->Name << " hit " << attackedPlayer->Name << " with " << damage << " damage.>\n";
 }
 
