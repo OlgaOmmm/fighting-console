@@ -18,12 +18,12 @@ class Hero
 
 		bool ableToAvoidAttack(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
 		double calcDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
-		double randomizeDamage(const double& damage) const;
 		double randCriticalDamage(const std::unique_ptr<Hero>& currentPlayer, const double& damage) const;
-		double getDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
-		void setDamage(const std::unique_ptr<Hero>& attackedPlayer, const double& damage);
+		int randomizeDamage(const double& damage) const;
+		int getDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
+		void setDamage(const std::unique_ptr<Hero>& attackedPlayer, const int& damage);
 
-		void printDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer, const double& damage) const;
+		void printDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer, const int& damage) const;
 		void printHP(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
 
 		virtual void attack(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) = 0;
