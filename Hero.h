@@ -5,15 +5,26 @@
 class Hero
 {
 	public:
+		enum PlayerRace { Human = 1, Orc, Elf, Alien } currentRace;
+		std::string Name;
+
+		double HP;
+		int Str, Def, Mnt, Lck, Spd;
+
 		Hero();
 		virtual ~Hero();
-	
-		std::string Race, Name;
-	
-		double HP;
-		int STR, DEF, INT, LCK, SPD; //статы в зависимости от расы, прописаны в классах-наследниках
-	
+
 		friend std::ostream& operator<<(std::ostream& os, const std::unique_ptr<Hero>& hero);
-	
-		virtual void attack(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) = 0;
+
+		bool ableToAvoidAttack(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
+		double calcDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
+		double randomizeDamage(const double& damage) const;
+		double randCriticalDamage(const std::unique_ptr<Hero>& currentPlayer, const double& damage) const;
+		double getDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
+		void setDamage(const std::unique_ptr<Hero>& attackedPlayer, const double& damage);
+
+		void printDamage(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer, const double& damage) const;
+		void printHP(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) const;
+
+		virtual void attack(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) = 0;
 };
