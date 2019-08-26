@@ -48,7 +48,7 @@ void Game::start() {
 
 void Game::playersOutfit(std::unique_ptr<Hero>(&player)[2]) {
 	for (int i = 0; i < 2; ++i) {
-		std::cout << "\t\tPlease, choose clothes for player" << i + 1 << "\n";
+		std::cout << "\t\tPlease, choose outfit for player" << i + 1 << "\n";
 
 		//right hand (weapon)
 		std::unique_ptr<Weapon> playerWeapon[2];
