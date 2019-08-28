@@ -84,10 +84,10 @@ public:
 	void attack(const std::unique_ptr<Hero>& currentPlayer, const std::unique_ptr<Hero>& attackedPlayer) override {
 		int damage;
 
-		if (countUltimateAttack() > 0)
-			damage = getDamage(currentPlayer, attackedPlayer);
-		else
+		if (isUltimateAttack())
 			damage = ultimateAttack(attackedPlayer);
+		else
+			damage = getDamage(currentPlayer, attackedPlayer);
 
 		setDamage(attackedPlayer, damage);
 
@@ -95,11 +95,15 @@ public:
 		printHP(currentPlayer, attackedPlayer);
 	}
 
-	int countUltimateAttack() {
+	bool isUltimateAttack() {
 		static int countAttack = 6; 
 		--countAttack;
-		std::cout << "\tWarning! Powerful alien damage after " << countAttack << " turn(s)!\n\n";
-		return countAttack;
+		if (countAttack) {
+			std::cout << "\tWarning! Powerful alien damage after " << countAttack << " turn(s)!\n\n";
+			return false;
+		}
+		else
+			return true;
 	}
 	double ultimateAttack(const std::unique_ptr<Hero>& player2) {
 		std::cout << "\tDANGER!!! Powerful alien damage right now!!!\n\n";
