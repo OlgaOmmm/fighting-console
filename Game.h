@@ -7,11 +7,11 @@ class Game {
 public:
 	explicit Game();
 	void start();
-	char getPlayerData(const char& diapason);
-	bool isEndOfGame(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2);
 
 	void playersCreating(std::unique_ptr<Hero>(& player)[2]);
-	void playersOutfit(std::unique_ptr<Hero>(&player)[2]);
+	void playersOutfit(const std::unique_ptr<Hero>(&player)[2]) const;
+	void autoFight(const std::unique_ptr<Hero>(&player)[2]) const;
 
-	friend std::ostream& operator<<(std::ostream& os, const std::unique_ptr<Hero>& hero);
+	bool isEndOfGame(const std::unique_ptr<Hero>(&player)[2]) const;
+	char getPlayerData(const char& diapason) const;
 };
