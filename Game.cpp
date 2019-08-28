@@ -114,22 +114,22 @@ void Game::playersOutfit(const std::unique_ptr<Hero>(&player)[2]) const {
 void Game::autoFight(const std::unique_ptr<Hero>(&player)[2]) const {
 	while (true) {
 		if (player[0]->Spd >= player[1]->Spd) {
-			if (!isEndOfGame(player[0], player[1]))
+			if (!isEndOfGame(player))
 				player[0]->attack(player[0], player[1]);
 			else
 				break;
-			if (!isEndOfGame(player[0], player[1]))
+			if (!isEndOfGame(player))
 				player[1]->attack(player[1], player[0]);
 			else
 				break;
 		}
 		else
 		{
-			if (!isEndOfGame(player[0], player[1]))
+			if (!isEndOfGame(player))
 				player[0]->attack(player[1], player[0]);
 			else
 				break;
-			if (!isEndOfGame(player[0], player[1]))
+			if (!isEndOfGame(player))
 				player[1]->attack(player[0], player[1]);
 			else
 				break;
@@ -137,13 +137,13 @@ void Game::autoFight(const std::unique_ptr<Hero>(&player)[2]) const {
 	}
 }
 
-bool Game::isEndOfGame(const std::unique_ptr<Hero>& player1, const std::unique_ptr<Hero>& player2) const {
-	if (player1->HP == 0) {
-		std::cout << player2->Name << " win!!!\n\nGAME OVER\n";
+bool Game::isEndOfGame(const std::unique_ptr<Hero>(&player)[2]) const {
+	if (player[0]->HP == 0) {
+		std::cout << player[1]->Name << " win!!!\n\nGAME OVER\n";
 		return true;
 	}
-	else if (player2->HP == 0) {
-		std::cout << player1->Name << " win!!!\n\nGAME OVER\n";
+	else if (player[1]->HP == 0) {
+		std::cout << player[0]->Name << " win!!!\n\nGAME OVER\n";
 		return true;
 	}
 	else
