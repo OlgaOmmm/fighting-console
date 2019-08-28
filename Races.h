@@ -98,15 +98,14 @@ public:
 	bool isUltimateAttack() {
 		static int countAttack = 5; 
 		--countAttack;
-		if (countAttack > 0) {
+		if (!countAttack)
+			return true; 
+		else {
 			std::cout << "\tWarning! Powerful alien damage after " << countAttack << " turn(s)!\n\n";
 			return false;
 		}
-		else if (!countAttack) 
-			return true;
-		else
-			return false;
 	}
+	
 	double ultimateAttack(const std::unique_ptr<Hero>& player2) {
 		std::cout << "\tDANGER!!! Powerful alien damage right now!!!\n\n";
 		return player2->HP;
